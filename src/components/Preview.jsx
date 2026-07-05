@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../logo/Logo.svg';
 import beansLogo from '../logo/Beans_logo.svg';
+import Menu from './Menu';
 
 const Preview = () => {
   return (
@@ -10,23 +11,10 @@ const Preview = () => {
         <div className="row">
           <div className="col-lg-6">
             <header>
-              <ul className="header">
-                <li className="header__item">
-                  <Link to="/">
-                    <img src={logo} alt="logo" />
-                  </Link>
-                </li>
-                <li className="header__item">
-                  <Link to="/our-coffee">Our coffee</Link>
-                </li>
-                <li className="header__item">
-                  <Link to="/for-your-pleasure">For your pleasure</Link>
-                </li>
-              </ul>
+                <Menu />
             </header>
           </div>
         </div>
-
         <div className="row">
           <div className="col-lg-10 offset-lg-1">
             <h1 className="title-big">Everything You Love About Coffee</h1>
