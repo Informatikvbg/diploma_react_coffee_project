@@ -1,34 +1,20 @@
 import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
-
-function Home() {
-  return (
-    <main style={{ padding: 24 }}>
-      <h1>Coffee Project Starter</h1>
-      <p>React 19 + Vite + Router + Sass + Vitest</p>
-      <nav style={{ display: 'flex', gap: 12 }}>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-      </nav>
-    </main>
-  );
-}
-
-function About() {
-  return (
-    <main style={{ padding: 24 }}>
-      <h2>About</h2>
-      <p>Starter branch for students.</p>
-      <Link to="/">Back</Link>
-    </main>
-  );
-}
+import {Route, Routes } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import Home from './components/Home';
+import OurCoffee from './components/OurCoffee';
+import ForYourPleasure from './components/ForYourPleasure';
+import ProductDetails from './components/ProductDetails';
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Home />} />
+        <Route path="our-coffee" element={<OurCoffee />} />
+        {/* <Route path="product/:id" element={<ProductDetails />} /> */}
+        <Route path="for-your-pleasure" element={<ForYourPleasure />} />
+      </Route>
     </Routes>
   );
 }
