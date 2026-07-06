@@ -1,11 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import data from '../data/db.json';
-import beansLogoDark from '../logo/Beans_logo_dark.svg';
-import coffeeGirl from '../img/coffee_girl.jpg';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import data from "../data/db.json";
+import beansLogoDark from "../logo/Beans_logo_dark.svg";
+import coffeeGirl from "../img/coffee_girl.jpg";
 
 const OurCoffee = () => {
   const items = data?.coffee ?? [];
+  const [term, setTerm] = useState("");
+  const [country, setCountry] = useState("all"); // all | Brazil | Kenya | Columbia
+
+  // 1) Нормализуем строку поиска
+  const normalizedTerm = term.trim().toLowerCase();
+
+  // 2) Фильтрация
+  const filteredItems = items.filter((item) => {
+    const matchesTerm = item.name.toLowerCase().includes(normalizedTerm);
+    let matchesCountry = true;
+    if (country !== "all") {
+      matchesCountry = item.country === country;
+    }
+    return matchesTerm && matchesCountry;
+  });
 
   return (
     <section className="shop">
@@ -19,16 +35,20 @@ const OurCoffee = () => {
             <div className="title">About our beans</div>
             <img className="beanslogo" src={beansLogoDark} alt="Beans logo" />
             <div className="shop__text">
-              Extremity sweetness difficult behaviour he of. On disposal of as landlord horrible.
+              Extremity sweetness difficult behaviour he of. On disposal of as
+              landlord horrible.
               <br />
               <br />
-              Afraid at highly months do things on at. Situation recommend objection do intention
+              Afraid at highly months do things on at. Situation recommend
+              objection do intention
               <br />
               so questions.
               <br />
-              As greatly removed calling pleased improve an. Last ask him cold feel
+              As greatly removed calling pleased improve an. Last ask him cold
+              feel
               <br />
-              met spot shy want. Children me laughing we prospect answered followed. At it went
+              met spot shy want. Children me laughing we prospect answered
+              followed. At it went
               <br />
               is song that held help face.
             </div>
@@ -37,9 +57,14 @@ const OurCoffee = () => {
 
         <div className="line"></div>
 
+        {/* блок поиска/фильтра */}
         <div className="row">
           <div className="col-lg-4 offset-2">
-            <form action="#" className="shop__search" onSubmit={(e) => e.preventDefault()}>
+            <form
+              action="#"
+              className="shop__search"
+              onSubmit={(e) => e.preventDefault()}
+            >
               <label className="shop__search-label" htmlFor="filter">
                 Looking for
               </label>
@@ -48,6 +73,8 @@ const OurCoffee = () => {
                 type="text"
                 placeholder="start typing here..."
                 className="shop__search-input"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
               />
             </form>
           </div>
@@ -56,9 +83,10 @@ const OurCoffee = () => {
             <div className="shop__filter">
               <div className="shop__filter-label">Or filter</div>
               <div className="shop__filter-group">
-                <button type="button" className="shop__filter-btn">Brazil</button>
-                <button type="button" className="shop__filter-btn">Kenya</button>
-                <button type="button" className="shop__filter-btn">Columbia</button>
+                <button type="button" className={`shop__filter-btn ${country === 'Brazil' ? 'active' : ''}`} onClick={() => setCountry('Brazil')}>Brazil</button>
+                <button type="button" className={`shop__filter-btn ${country === 'Kenya' ? 'active' : ''}`} onClick={() => setCountry('Kenya')}>Kenya</button>
+                <button type="button" className={`shop__filter-btn ${country === 'Columbia' ? 'active' : ''}`} onClick={() => setCountry('Columbia')}>Columbia</button>
+                <button type="button" className={`shop__filter-btn ${country === 'all' ? 'active' : ''}`} onClick={() => setCountry('all')}>All</button>
               </div>
             </div>
           </div>
@@ -67,12 +95,12 @@ const OurCoffee = () => {
         <div className="row">
           <div className="col-lg-10 offset-lg-1">
             <div className="shop__wrapper">
-              {items.map((item, i) => (
+              {filteredItems.map((item, i) => (
                 <Link
                   key={`${item.name}-${i}`}
                   to={`/product/coffee/${i}`}
                   className="shop__item"
-                  style={{ textDecoration: 'none', color: 'inherit' }}
+                  style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <img src={item.url} alt={item.name} />
                   <div className="shop__item-title">{item.name}</div>
