@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import InnerLayout from './layouts/InnerLayout';
 import OurCoffee from './pages/OurCoffee';
 import ForYourPleasure from './pages/ForYourPleasure';
-// import ProductDetails from './components/pagesProductDetails';
+import ProductDetails from './pages/ProductDetails';
 
 export default function App() {
   return (
@@ -14,9 +14,9 @@ export default function App() {
 
       {/* Внутренние страницы */}
       <Route path="/" element={<InnerLayout />}>
-        {/* <Route path="our-coffee" element={<OurCoffee />} /> */}
+        <Route path="our-coffee" element={<OurCoffee />} />
         <Route path="for-your-pleasure" element={<ForYourPleasure />} />
-        {/* <Route path="product/:id" element={<ProductDetails />} /> */}
+        <Route path="product/:type/:id" element={<ProductDetails />} />
       </Route>
     </Routes>
   );
