@@ -1,18 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Spinner from "../components/Spinner";
 import data from "../data/db.json";
 import beansLogoDark from "../logo/Beans_logo_dark.svg";
 import coffeeGirl from "../img/coffee_girl.jpg";
 
 const OurCoffee = () => {
-  const items = data?.coffee ?? [];
+  const [items, setItems] = useState([]);
   const [term, setTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   const [country, setCountry] = useState("all"); // all | Brazil | Kenya | Columbia
 
+    useEffect(() => {
+    const t = setTimeout(() => {
+      setItems(data?.coffee ?? []);
+      setLoading(false);
+    }, 600); // имитация запроса
+        return () => clearTimeout(t);
+  }, []);
+
+  
   // 1) Нормализуем строку поиска
   const normalizedTerm = term.trim().toLowerCase();
-
+  
   // 2) Фильтрация
   const filteredItems = items.filter((item) => {
     const matchesTerm = item.name.toLowerCase().includes(normalizedTerm);
@@ -22,7 +33,8 @@ const OurCoffee = () => {
     }
     return matchesTerm && matchesCountry;
   });
-
+  
+  if (loading) return <Spinner />;
   return (
     <section className="shop">
       <div className="container">
